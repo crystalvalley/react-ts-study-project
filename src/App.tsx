@@ -1,44 +1,39 @@
 import * as React from 'react';
-import Divided from './Divided';
+import { BrowserRouter,Route,Switch } from 'react-router-dom';
+import Page1 from './Page1';
+import Page2 from './Page2';
 
-interface IState{
-  number : number;
+interface IState {
+  number: number;
 }
 
-class App extends React.Component<{},IState> {
+class App extends React.Component<{}, IState> {
   constructor(props: {}) {
     super(props);
-    this.state={
-      number : 0
-    }
-    this.onClick = this.onClick.bind(this);
   }
 
   public render() {
     return (
-      <div>
-        {/* 1단계 분리할 부분을 체크 */}
-        {/* 4단계 분리시킬 컴포넌트가 가져야할 속성을 파악 */}
-        <div>
-          {/* div안에 number라는 속성이 있음 */}
-          {this.state.number}
-        </div>
-        {/* button안에 onClick이라는 속성이 있음 */}
-        <button onClick={this.onClick}>
-          button
-        </button>
-        <Divided
-          recievedNumber={this.state.number}
-          recievedOnClick={this.onClick}
-        />
-      </div>
+      <BrowserRouter>
+        {/* BrowserRouter는 기본적인 Router입니다. */}
+        {/* Switch는 자식 Route 중 단 하나만 체크 */}
+        <Switch>
+          {/* 
+            경로 비교 방식 
+            ~~~~/test
+            /도 적용되고
+            /test도 적용되요.
+          */}
+          {/* http://naver.com/news/abc?a=b&c=d */}
+          {/* context path => http://naver.com */}
+          {/* route path => /news/abc */}
+          {/* url query ?a=b&c=d (parameter) */}
+          {/* 주소의 route path를 비교하여 특정 컴포넌트를 보여줌 */}
+          <Route path="/page1" component={Page1}/>
+          <Route path="/page2" component={Page2}/>
+        </Switch>
+      </BrowserRouter>
     );
-  }
-  private onClick(){
-    const num = this.state.number
-    this.setState({
-      number : num+1
-    })
   }
 }
 export default App;
